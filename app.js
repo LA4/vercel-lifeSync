@@ -1,0 +1,33 @@
+var express = require("express");
+require("dotenv").config();
+
+var path = require("path");
+var cookieParser = require("cookie-parser");
+var logger = require("morgan");
+require("./models/connection");
+
+var indexRouter = require("./routes/index");
+var usersRouter = require("./routes/users");
+var booknoteRouter = require("./routes/booknote");
+var searchRouter = require("./routes/research");
+var taskRouter = require("./routes/task");
+var agendaRouter = require("./routes/agenda");
+
+var app = express();
+const cors = require("cors");
+app.use(cors());
+
+app.use(logger("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use("/", indexRouter);
+app.use("/user", usersRouter);
+app.use("/bookNote", booknoteRouter);
+app.use("/search", searchRouter);
+app.use("/task", taskRouter);
+app.use("/agenda", agendaRouter);
+
+module.exports = app;
